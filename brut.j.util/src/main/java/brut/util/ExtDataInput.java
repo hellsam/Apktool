@@ -52,7 +52,7 @@ public class ExtDataInput extends DataInputDelegate {
 
     public void skipCheckShort(short expected) throws IOException {
         short got = readShort();
-        if (got != expected) {
+        if (got != expected && got != 0x00000003) {
             throw new IOException(String.format(
                 "Expected: 0x%08x, got: 0x%08x", expected, got));
         }
