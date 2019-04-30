@@ -251,18 +251,22 @@ final public class AndrolibResources {
 
         ExtMXSerializer xmlSerializer = getResXmlSerializer();
         for (ResPackage pkg : resTable.listMainPackages()) {
-            attrDecoder.setCurrentPackage(pkg);
+            try {
+                attrDecoder.setCurrentPackage(pkg);
 
-            LOGGER.info("Decoding file-resources...");
-            for (ResResource res : pkg.listFiles()) {
-                fileDecoder.decode(res, in, out);
-            }
+                LOGGER.info("Decoding file-resources...");
+                for (ResResource res : pkg.listFiles()) {
+                    fileDecoder.decode(res, in, out);
+                }
 
-            LOGGER.info("Decoding values */* XMLs...");
-            for (ResValuesFile valuesFile : pkg.listValuesFiles()) {
-                generateValuesFile(valuesFile, out, xmlSerializer);
+                LOGGER.info("Decoding values */* XMLs...");
+                for (ResValuesFile valuesFile : pkg.listValuesFiles()) {
+                    generateValuesFile(valuesFile, out, xmlSerializer);
+                }
+                generatePublicXml(pkg, out, xmlSerializer);
+            }catch(Exception e){
+                e.printStackTrace();
             }
-            generatePublicXml(pkg, out, xmlSerializer);
         }
 
         AndrolibException decodeError = duo.m2.getFirstError();
