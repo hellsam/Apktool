@@ -154,6 +154,10 @@ public class ApkDecoder {
                 Set<String> files = mApkFile.getDirectory().getFiles(true);
                 for (String file : files) {
                     if (file.endsWith(".dex")) {
+                        if(!file.startsWith("classes")){
+                            LOGGER.info("Baksmaling " + file + " pass ...");
+                            continue;
+                        }
                         if (! file.equalsIgnoreCase("classes.dex")) {
                             switch(mDecodeSources) {
                                 case DECODE_SOURCES_NONE:
